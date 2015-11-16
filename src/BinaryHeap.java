@@ -84,27 +84,20 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 		//COMPLETEZ
 		if(array.length != 1)
 		{
-			AnyType [ ] arrayTmp = (AnyType[]) new Comparable[currentSize-1];
 			AnyType head = array[1];
-			for(int i = 1; i<arrayTmp.length; i++)
-			{
-				arrayTmp[i] = array[i+1];
-			} 
-			array = arrayTmp;
-			currentSize--;
+			array[1] = array[currentSize--];
 			
 			if(array.length > 1)
 			{
 				if(min)
 				{
-					percolateDownMinHeap(1, array.length);
+					percolateDownMinHeap(1, currentSize);
 				}
 				else 
 				{
-					percolateDownMaxHeap(1, array.length);
+					percolateDownMaxHeap(1, currentSize);
 				}
 			}
-			
 			return head;
 		}
 		return null;
