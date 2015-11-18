@@ -27,7 +27,8 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 			array[i] = items[i-1];
 		}
 
-
+		// COMPLETEZ
+		// invoquez buildMinHeap() ou buildMaxHeap() en fonction du parametre min;
 		if(min)
 		{
 			buildMinHeap();
@@ -38,8 +39,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 		}
 		
 		
-		// COMPLETEZ
-		// invoquez buildMinHeap() ou buildMaxHeap() en fonction du parametre min;
+		
 	}
 
 	public boolean offer( AnyType x )
@@ -67,6 +67,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 			}
 		}
 		array[hole] = x;
+		modifications++;
 		return true;
 	}
 
@@ -98,6 +99,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 					percolateDownMaxHeap(1, currentSize);
 				}
 			}
+			modifications++;
 			return head;
 		}
 		return null;
@@ -106,7 +108,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 
 	public Iterator<AnyType> iterator()
 	{
-		return null;//new HeapIterator();
+		return new HeapIterator();
 	}
 
 	private void buildMinHeap()
@@ -118,9 +120,8 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 		}
 	}
 
-	private void buildMaxHeap()
+	public void buildMaxHeap()
 	{
-		//COMPLETEZ
 		for(int i = array.length/2 ; i > 0 ; i--)
 		{
 			percolateDownMaxHeap(i, array.length);
@@ -236,7 +237,16 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 	 */
 	private void percolateDownMaxHeap( int hole, int size )
 	{
-		percolateDownMaxHeap(array, hole, size, true);
+		//if(!min) 
+		{
+			percolateDownMaxHeap(array, hole, size, true);
+		}
+		/*
+		else
+		{
+			percolateDownMinHeap(array, hole, size, true);
+		}
+		*/
 	}
 
 	/**
@@ -283,20 +293,71 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 	void heapSort( AnyType[] a )
 	{
 		//COMPLETEZ
+		for( int i = a.length / 2; i >= 0; i--)
+		{
+			// Construction du monceau
+			BinaryHeap.percolateDownMaxHeap(a, i, a.length, false);
+		}
+		for( int i = a.length - 1; i > 0; i-- ) 
+		{
+			// Permutation du maximum (racine) avec le dernier élément du monceau
+			BinaryHeap.swapReferences(a, 0, i); 
+			BinaryHeap.percolateDownMaxHeap(a, 0, i, false);
+		}
 	}
 
 	public static <AnyType extends Comparable<? super AnyType>>
 	void heapSortReverse( AnyType[] a )
 	{
 		//COMPLETEZ
+		for( int i = a.length / 2; i >= 0; i--)
+		{
+			// Construction du monceau
+			BinaryHeap.percolateDownMinHeap(a, i, a.length, false);
+		}
+		for( int i = a.length - 1; i > 0; i-- ) 
+		{
+			// Permutation du minimum (racine) avec le dernier élément du monceau
+			BinaryHeap.swapReferences(a, 0, i); 
+			BinaryHeap.percolateDownMinHeap(a, 0, i, false);
+		}
 	}
 
 	public String nonRecursivePrintFancyTree()
 	{
-		String outputString = "";
-
 		//COMPLETEZ
+		String outputString = "";
+		
+		outputString += array[1].toString() + "\n";
+		int i = 2;
+		while(i < currentSize)
+		{
+			for(int j = i*2 ; i < currentSize; i*=2)
+			{
+				outputString += array[j].toString() + "\n";
+			}
+			if(leftChild(i, true) < currentSize)
+			{
+				i = 2 * i;
+			}
+			else if(i+1 < currentSize)
+			{
+				i++;
+			}
+			else
+			{
+				i = (i+1)/2;
+			}
 
+		}
+		/*
+		i = currentSize;
+		while(i > 2)
+		{
+			outputString += array[i].toString() + "\n";
+			i -= 2;
+		}
+		*/
 		return outputString;
 	}
 
@@ -334,25 +395,42 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 
 		return outputString;
 	}
+	
+	public class HeapIterator implements Iterator<AnyType> { 
+	    private int index;
+	    private int modificationsIterator;
 
-	/*
-	private class HeapIterator implements Iterator {
+	    public HeapIterator() {
+	        index = 0;
+	        modificationsIterator = modifications;
+	        
+	    }
 
-		
-		public boolean hasNext() {
-			//COMPLETEZ
-		}
-
-		public Object next() throws NoSuchElementException, 
+	    @Override
+	    public AnyType next() throws NoSuchElementException, 
 		ConcurrentModificationException, 
 		UnsupportedOperationException {
-			//COMPLETEZ
-		}
+	        if(hasNext() && modificationsIterator == modifications) {
+	            return (AnyType) array[++index];
+	        } 
+	        else if(hasNext() == false)
+	        {
+	        	throw new NoSuchElementException();
+	        }
+	        else {
+	            throw new ConcurrentModificationException();
+	        }
+	    }
 
-		public void remove() {
+	    @Override
+	    public boolean hasNext()
+	    {
+	        return (index < currentSize);
+	    }
+
+	    @Override
+	    public void remove() {
 			throw new UnsupportedOperationException();
-		}
-		
+		}  
 	}
-	*/
 }

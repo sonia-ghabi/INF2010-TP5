@@ -53,8 +53,8 @@ public class Main
       System.out.println("Affichage recursif:");
       System.out.println( heap.printFancyTree() );
 
-      System.out.println("Affichage non recursif:");
-      System.out.println( heap.nonRecursivePrintFancyTree() );
+     // System.out.println("Affichage non recursif:");
+      //System.out.println( heap.nonRecursivePrintFancyTree() );
 
       System.out.println();
       System.out.println("Tableau d'origine:");
@@ -63,12 +63,11 @@ public class Main
       BinaryHeap.heapSort( items );
       System.out.println("Tableau ordonne:");
       System.out.println( printArray( items ) );
-
+      
       BinaryHeap.heapSortReverse( items );
       System.out.println("Tableau inversement ordonne:");
       System.out.println( printArray( items ) );
       System.out.print("\n");
-
 
       /*
        * Ajouter appels pour repondre a la question
@@ -89,7 +88,6 @@ public class Main
     	  minQueue.offer(k);
     	  maxQueue.offer(k);
       }
-      
       System.out.print("\n");
       
       //verifie que poll retire toujours le plus grand element dans un max heap
@@ -117,9 +115,9 @@ public class Main
        	  System.out.print(minQueue.poll()+", ");
       System.out.print("\n\n");
       
-      
       //test si l'iterateur detecte une modification si on ajoute un element
-      System.out.println("Aouter un element au monceau pendant une iteration avec l'iterateur:");
+      
+      System.out.println("Ajouter un element au monceau pendant une iteration avec l'iterateur:");
       try
       {
       	for(int element: heap)
@@ -163,6 +161,7 @@ public class Main
       }
       
    }
+  
    
 
    private static <AnyType> 
