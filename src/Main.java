@@ -53,8 +53,8 @@ public class Main
       System.out.println("Affichage recursif:");
       System.out.println( heap.printFancyTree() );
 
-     // System.out.println("Affichage non recursif:");
-      //System.out.println( heap.nonRecursivePrintFancyTree() );
+     System.out.println("Affichage non recursif:");
+     System.out.println( heap.nonRecursivePrintFancyTree() );
 
       System.out.println();
       System.out.println("Tableau d'origine:");

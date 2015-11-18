@@ -326,9 +326,83 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 	public String nonRecursivePrintFancyTree()
 	{
 		//COMPLETEZ
+		AnyType[] items = (AnyType[]) new Comparable[currentSize];
+		for(int i = 1 ; i <= currentSize; i++)
+		{
+			items[i-1] = array[i];
+		}
 		String outputString = "";
+		String espace ="";
+		String traits = "|_";
+		outputString += items[0].toString() + "\n";
+		int i = 0;
+		while(i < items.length)
+		{
+			if(leftChild(i, false) < items.length && items[leftChild(i, false)] != null)
+			{
+				i = leftChild(i, false);
+				outputString +=  espace + traits + items[i].toString() + "\n";
+				items[i] = null;
+				espace += "\t";
+			}
+			
+			// Si on a déjà affiche le fils gauche mais pas le droit
+			else if(leftChild(i, false) < items.length && items[leftChild(i, false)] == null
+					&& leftChild(i, false)+1 < items.length && items[leftChild(i, false)+1] != null)
+			{
+				outputString += espace + traits + items[leftChild(i, false)+1].toString() + "\n";
+				items[leftChild(i, false)+1] = null;
+				i = leftChild(i, false)+1;
+			}
+			else if(leftChild(i, false) < items.length && items[leftChild(i, false)] == null
+					&& leftChild(i, false)+1 >= items.length)
+			{
+				outputString += "null\n";
+				if(i%2 == 0)
+				{
+					i = i/2 - 1;
+				}
+				else
+				{
+					i = i/2;
+				}
+				espace.substring(2, espace.length());
+			}
+			
+
+			else if(i==0)
+			{
+				break;
+			}
+			
+			// Si il a des fils qu'on a déjà affiché
+			else if(leftChild(i, false) < items.length && items[leftChild(i, false)] == null
+					&& ((leftChild(i, false)+1 < items.length && items[leftChild(i, false)+1] == null)
+							|| leftChild(i, false)+1 >= items.length)
+					// Si il n'y a plus de fils
+					|| leftChild(i, false) > items.length)
+			{
+				if(i%2 == 0)
+				{
+					i = i/2 - 1;
+				}
+				else
+				{
+					i = i/2;
+				}
+				espace.substring(2, espace.length());
+			}
+			
+		}
 		
-		outputString += array[1].toString() + "\n";
+		
+		
+		
+		
+		
+		
+		
+		/*
 		int i = 2;
 		while(i < currentSize)
 		{
@@ -349,7 +423,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 				i = (i+1)/2;
 			}
 
-		}
+		}*/
 		/*
 		i = currentSize;
 		while(i > 2)
