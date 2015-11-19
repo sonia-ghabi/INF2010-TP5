@@ -332,32 +332,40 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 			items[i-1] = array[i];
 		}
 		String outputString = "";
-		String espace ="";
-		String traits = "|_";
-		outputString += items[0].toString() + "\n";
+		String espace = "";
+		String traits = "__";
+		outputString += "|" + traits + items[0].toString() + "\n";
 		int i = 0;
+		AnyType j = items[i];
 		while(i < items.length)
 		{
+			j = items[i];
 			if(leftChild(i, false) < items.length && items[leftChild(i, false)] != null)
 			{
+				espace += "  |";
 				i = leftChild(i, false);
 				outputString +=  espace + traits + items[i].toString() + "\n";
 				items[i] = null;
-				espace += "\t";
+				
 			}
 			
 			// Si on a déjà affiche le fils gauche mais pas le droit
 			else if(leftChild(i, false) < items.length && items[leftChild(i, false)] == null
 					&& leftChild(i, false)+1 < items.length && items[leftChild(i, false)+1] != null)
 			{
+				//espace = espace.substring(0, espace.length()-1);
+				espace += "  |";
 				outputString += espace + traits + items[leftChild(i, false)+1].toString() + "\n";
 				items[leftChild(i, false)+1] = null;
 				i = leftChild(i, false)+1;
+				espace = espace.substring(0, espace.length() - 3);
+				espace += "   ";
 			}
 			else if(leftChild(i, false) < items.length && items[leftChild(i, false)] == null
 					&& leftChild(i, false)+1 >= items.length)
 			{
-				outputString += "null\n";
+				espace += "  |";
+				outputString += espace + traits + "null\n";
 				if(i%2 == 0)
 				{
 					i = i/2 - 1;
@@ -366,7 +374,15 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 				{
 					i = i/2;
 				}
-				espace.substring(2, espace.length());
+				if(i == 0)
+				{
+					espace = "";
+				}
+				else if(espace.length() >= 3)
+				{
+					String tmp = espace.substring(0, espace.length()-3);
+					espace = tmp;
+				}
 			}
 			
 
@@ -390,48 +406,20 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 				{
 					i = i/2;
 				}
-				espace.substring(2, espace.length());
+				
+				if(i == 0)
+				{
+					espace = "";
+				}
+				else if(espace.length() >= 3)
+				{
+					String tmp = espace.substring(0, espace.length()-3);
+					espace = tmp;
+				}
 			}
 			
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		/*
-		int i = 2;
-		while(i < currentSize)
-		{
-			for(int j = i*2 ; i < currentSize; i*=2)
-			{
-				outputString += array[j].toString() + "\n";
-			}
-			if(leftChild(i, true) < currentSize)
-			{
-				i = 2 * i;
-			}
-			else if(i+1 < currentSize)
-			{
-				i++;
-			}
-			else
-			{
-				i = (i+1)/2;
-			}
-
-		}*/
-		/*
-		i = currentSize;
-		while(i > 2)
-		{
-			outputString += array[i].toString() + "\n";
-			i -= 2;
-		}
-		*/
+	
 		return outputString;
 	}
 
